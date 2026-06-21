@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Senses Deal Intelligence v6 — Microline India</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;--bg2:#f7f8fa;--bg3:#eef0f5;--bg4:#e2e5ed;
+  --border:#e4e7ef;--border2:#d0d5e0;
+  --text:#111827;--text2:#4b5568;--text3:#71717a;
+  --green:#16a34a;--gbg:#f0fdf4;--gbdr:#bbf7d0;
+  --red:#dc2626;--rbg:#fef2f2;--rbdr:#fecaca;
+  --amber:#d97706;--abg:#fffbeb;--abdr:#fde68a;
+  --blue:#2563eb;--bbg:#eff6ff;--bbdr:#bfdbfe;
+  --purple:#7c3aed;--pbg:#f5f3ff;--pbdr:#ddd6fe;
+  --indigo:#4f46e5;--ibg:#eef2ff;
+  --r:10px;--rs:7px;--sh:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.6;}
+/* HEADER */
+.hdr{height:60px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#fff;position:sticky;top:0;z-index:200;box-shadow:var(--sh);}
+.logo{display:flex;align-items:center;gap:10px;}
+.lm{width:32px;height:32px;border-radius:8px;background:var(--indigo);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;}
+.ln{font-size:14px;font-weight:700;}
+.ls{font-size:11px;color:var(--text3);}
+.badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;border:1px solid;}
+.bg{background:var(--gbg);color:var(--green);border-color:var(--gbdr);}
+.ba{background:var(--abg);color:var(--amber);border-color:var(--abdr);}
+.bb{background:var(--bbg);color:var(--blue);border-color:var(--bbdr);}
+.bp{background:var(--pbg);color:var(--purple);border-color:var(--pbdr);}
+.bi{background:var(--ibg);color:var(--indigo);border-color:#c7d2fe;}
+/* LAYOUT */
+.app{display:flex;height:calc(100vh - 60px);}
+.sidebar{width:240px;flex-shrink:0;border-right:1px solid var(--border);background:var(--bg2);overflow-y:auto;padding:16px 0;}
+.main{flex:1;overflow-y:auto;padding:28px 32px;}
+/* NAV */
+.ng{padding:0 16px;font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin:18px 0 6px;}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);border-radius:var(--rs);margin:2px 10px;transition:all .15s;}
+.ni:hover{background:var(--bg3);color:var(--text);}
+.ni.active{background:var(--ibg);color:var(--indigo);font-weight:600;}
+.nd{width:6px;height:6px;border-radius:50%;background:var(--border2);flex-shrink:0;}
+.ni.active .nd{background:var(--indigo);}
+/* BACK BAR */
+.back-bar{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--rs);font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:#fff;color:var(--text2);font-family:'Inter',sans-serif;transition:all .15s;min-height:36px;}
+.back-btn:hover{background:var(--bg2);color:var(--text);}
+.breadcrumb{font-size:12px;color:var(--text3);}
+.breadcrumb span{color:var(--text2);font-weight:600;}
+/* SECTION */
+.sec{display:none;}.sec.active{display:block;}
+.pt{font-family:'Inter',sans-serif;font-size:24px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-0.5px;}
+.ps{font-size:13px;color:var(--text3);margin-bottom:24px;}
+/* CARDS */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:16px;box-shadow:var(--sh);}
+.ct{font-size:12px;font-weight:800;color:var(--text);margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em;}
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+/* INPUTS */
+.fl{margin-bottom:14px;}
+.fl label{display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;}
+.fl input,.fl select,.fl textarea{width:100%;background:#fff;border:1px solid var(--border2);border-radius:var(--rs);padding:10px 14px;font-size:13px;color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;min-height:40px;}
+.fl input:focus,.fl select:focus,.fl textarea:focus{border-color:var(--indigo);box-shadow:0 0 0 3px var(--ibg);}
+.fl .hint{font-size:11px;color:var(--text3);margin-top:4px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+/* TOGGLE */
+.tg{display:flex;border:1px solid var(--border2);border-radius:var(--rs);overflow:hidden;margin-bottom:16px;min-height:40px;}
+.tb{flex:1;padding:8px 10px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:var(--bg2);color:var(--text2);transition:all .15s;font-family:'Inter',sans-serif;}
+.tb.active{background:var(--indigo);color:#fff;}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .15s;min-height:36px;justify-content:center;}
+.btp{background:var(--indigo);color:#fff;}.btp:hover{background:#4338ca;box-shadow:0 4px 6px -1px rgba(79,70,229,.2);}
+.bto{background:#fff;border:1px solid var(--border2);color:var(--text2);}.bto:hover{background:var(--bg2);color:var(--text);}
+.btg{background:var(--gbg);color:var(--green);border:1px solid var(--gbdr);}.btg:hover{background:#dcfce7;}
+.btr{background:var(--rbg);color:var(--red);border:1px solid var(--rbdr);}.btr:hover{background:#fee2e2;}
+.bsm{padding:7px 12px;font-size:12px;}
+/* UPLOAD */
+.uz{border:2px dashed var(--border2);border-radius:var(--r);padding:24px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2);}
+.uz:hover,.uz.drag{border-color:var(--indigo);background:var(--ibg);}
+.fc{display:flex;align-items:center;gap:6px;background:var(--gbg);border:1px solid var(--gbdr);border-radius:var(--rs);padding:8px 12px;margin-top:10px;font-size:12px;color:var(--green);font-weight:600;}
+/* METRIC */
+.mc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:16px;text-align:center;}
+.mv{font-size:24px;font-weight:800;margin:6px 0;letter-spacing:-0.5px;}
+.ml{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
+.ms{font-size:12px;color:var(--text2);margin-top:4px;}
+/* TABLE */
+.tw{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.tbl th{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;background:var(--bg2);border-bottom:1px solid var(--border);text-align:left;}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;line-height:1.6;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr.hl td{background:var(--bg3);color:var(--text);font-weight:700;}
+/* TAGS */
+.tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;display:inline-block;border:1px solid;}
+.tg_{background:var(--gbg);color:var(--green);border-color:var(--gbdr);}
+.tr_{background:var(--rbg);color:var(--red);border-color:var(--rbdr);}
+.ta_{background:var(--abg);color:var(--amber);border-color:var(--abdr);}
+.tn_{background:var(--bg3);color:var(--text2);border-color:var(--border2);}
+/* BAR */
+.bw{height:8px;border-radius:4px;background:var(--bg3);overflow:hidden;margin-top:4px;}
+.bf{height:100%;border-radius:4px;transition:width .5s;}
+/* SCRIPT */
+.sb{background:var(--bg2);border-left:4px solid var(--purple);border-radius:0 var(--rs) var(--rs) 0;padding:16px;margin-bottom:12px;font-size:13px;color:var(--text2);line-height:1.8;}
+/* ALERT */
+.al{padding:12px 16px;border-radius:var(--rs);font-size:13px;margin-bottom:16px;line-height:1.6;border:1px solid;}
+.alg{background:var(--gbg);border-color:var(--gbdr);color:var(--green);}
+.ala{background:var(--abg);border-color:var(--abdr);color:var(--amber);}
+.alr{background:var(--rbg);border-color:var(--rbdr);color:var(--red);}
+.alb{background:var(--bbg);border-color:var(--bbdr);color:var(--blue);}
+.alp{background:var(--pbg);border-color:var(--pbdr);color:var(--purple);}
+.ali{background:var(--ibg);border-color:#c7d2fe;color:var(--indigo);}
+/* LOAD */
+.ld{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:var(--rs);background:var(--bbg);border:1px solid var(--bbdr);color:var(--blue);font-size:13px;font-weight:500;margin-bottom:16px;}
+.sp{width:16px;height:16px;border:2px solid rgba(37,99,235,.25);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+/* RISK METER */
+.risk-meter{position:relative;height:12px;border-radius:6px;overflow:hidden;background:linear-gradient(90deg,var(--green),var(--amber) 50%,var(--red));margin:12px 0;}
+.risk-needle{position:absolute;top:-4px;width:3px;height:20px;background:var(--text);border-radius:2px;transform:translateX(-50%);transition:left .5s;box-shadow:0 0 2px rgba(0,0,0,0.5);}
+/* INST */
+.is{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.ib{padding:8px 14px;border:1px solid var(--border2);border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:#fff;color:var(--text2);transition:all .15s;}
+.ib.active{background:var(--indigo);color:#fff;border-color:var(--indigo);}
+/* SECTION LABEL */
+.sl{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin:24px 0 10px;border-bottom:1px solid var(--border);padding-bottom:6px;}
+/* CHAT / SIMULATOR */
+.chat-window{height:300px;overflow-y:auto;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs) var(--rs) 0 0;padding:16px;display:flex;flex-direction:column;gap:12px;}
+.msg{padding:10px 14px;border-radius:12px;max-width:85%;font-size:13px;line-height:1.5;}
+.msg.user{background:var(--indigo);color:#fff;align-self:flex-end;border-bottom-right-radius:2px;}
+.msg.ai{background:#fff;border:1px solid var(--border);color:var(--text);align-self:flex-start;border-bottom-left-radius:2px;}
+.chat-input{display:flex;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--rs) var(--rs);overflow:hidden;}
+.chat-input input{flex:1;border:none;padding:12px 16px;font-size:13px;outline:none;}
+.chat-input button{border:none;background:var(--ibg);color:var(--indigo);font-weight:600;padding:0 20px;cursor:pointer;transition:all .1s;}
+.chat-input button:hover{background:#c7d2fe;}
+/* PRINT */
+@media print{
+  .hdr,.sidebar,.no-print,.app{display:none!important;}
+  #print-area{display:block!important;position:static!important;}
+  body{background:#fff!important;}
+}
+#print-area{display:none;position:absolute;top:0;left:0;width:100%;z-index:9999;background:#fff;}
+@media(max-width:768px){.sidebar{display:none;}.main{padding:16px;}.g2,.g3,.g4,.fr{grid-template-columns:1fr;}.g4{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="logo" onclick="nav('dash')" style="cursor:pointer;" title="Go to Dashboard">
+      <div class="lm">S</div>
+      <div><div class="ln">Senses Deal Intelligence</div><div class="ls">Microline India · Sales Enablement</div></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <span class="badge bi" id="hdr-inst">PU College</span>
+    <span class="badge bg" id="hdr-ai-badge" style="cursor:pointer;" onclick="nav('settings')" title="AI Settings">○ Add API Key</span>
+    <button class="btn bsm bto no-print" onclick="nav('settings')" title="Settings">&#9881; Settings</button>
+    <button class="btn bsm bto no-print" onclick="confirmClearAll()" style="color:var(--red);border-color:var(--rbdr);" title="Clear Deal">&#10005; Clear</button>
+    <button class="btn bsm btp no-print" onclick="printDeal()">&#128438; Export PDF</button>
+  </div>
+</div>
+
+<div class="app">
+<div class="sidebar">
+  <div class="ng">Phase 1: Deal Prep</div>
+  <div class="ni" onclick="nav('upload')"><div class="nd"></div>Upload Documents</div>
+  <div class="ni" onclick="nav('manual')"><div class="nd"></div>Manual Input</div>
+  <div class="ni" onclick="nav('stakeholders')"><div class="nd"></div>Stakeholder Map</div>
+
+  <div class="ng">Phase 2: In the Room</div>
+  <div class="ni active" onclick="nav('dash')"><div class="nd"></div>Deal Dashboard</div>
+  <div class="ni" onclick="nav('tco')"><div class="nd"></div>TCO Calculator</div>
+  <div class="ni" onclick="nav('specs')"><div class="nd"></div>Spec Comparison</div>
+  <div class="ni" onclick="nav('traps')"><div class="nd"></div>Trap Questions</div>
+
+  <div class="ng">Phase 3: Business Case</div>
+  <div class="ni" onclick="nav('battle')"><div class="nd"></div>Battle Card</div>
+  <div class="ni" onclick="nav('tei')"><div class="nd"></div>TEI Framework</div>
+  <div class="ni" onclick="nav('pyramid')"><div class="nd"></div>Value Pyramid</div>
+  <div class="ni" onclick="nav('coi')"><div class="nd"></div>Cost of Inaction</div>
+
+  <div class="ng">Phase 4: Follow-up</div>
+  <div class="ni" onclick="nav('scripts')"><div class="nd"></div>Closing Scripts</div>
+  <div class="ni" onclick="nav('email')"><div class="nd"></div>Email Generator</div>
+  <div class="ni" onclick="nav('map')"><div class="nd"></div>Mutual Action Plan</div>
+  <div class="ni" onclick="nav('simulator')"><div class="nd"></div>AI Simulator</div>
+</div>
+
+<div class="main">
+
+<div class="sec active" id="sec-dash">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;">
+    <div class="pt" style="margin-bottom:0;">Deal Dashboard</div>
+    <div style="font-size:13px;font-weight:600;color:var(--text3);" id="dash-deal-label"></div>
+  </div>
+  <div class="ps">Executive view — TEI ROI · Competitive risk · Predictive actions</div>
+
+  <div id="dash-kpi-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px;"></div>
+
+  <div class="g3">
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="card" style="margin-bottom:0;display:flex;flex-direction:column;align-items:center;padding:24px 20px;">
+        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:16px;">Win Probability</div>
+        <svg id="dash-win-svg" width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="48" fill="none" stroke="var(--bg3)" stroke-width="12"/>
+          <circle id="dash-win-arc" cx="60" cy="60" r="48" fill="none" stroke="var(--green)" stroke-width="12"
+            stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .8s ease,stroke .4s;"/>
+          <text id="dash-win-num" x="60" y="55" text-anchor="middle" font-size="26" font-weight="800" fill="var(--text)">0%</text>
+          <text id="dash-win-label" x="60" y="74" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text3)">Evaluating</text>
+        </svg>
+      </div>
+      <div class="card" style="margin-bottom:0;background:var(--ibg);border-color:#c7d2fe;">
+        <div style="font-size:10px;font-weight:800;color:var(--indigo);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">✦ Next Best Action</div>
+        <div id="dash-nba-text" style="font-size:13px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:12px;">Calculate TCO and upload quotes to generate predictive actions.</div>
+        <div id="dash-nba-btn"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ct">Annual Value (TEI)</div>
+      <div id="dash-tei-bars"></div>
+      <div id="dash-tei-total" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:12px;font-weight:700;color:var(--text);">Total annual benefit</span>
+        <span style="font-size:15px;font-weight:800;color:var(--green);">—</span>
+      </div>
+      <button class="btn bto bsm" style="margin-top:12px;width:100%;" onclick="nav('tei')">Full TEI Business Case →</button>
+    </div>
+
+    <div class="card">
+      <div class="ct">TCO Comparison</div>
+      <div id="dash-tco-chart"></div>
+      <div id="dash-tco-rows" style="margin-top:14px;"></div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+        <button class="btn bto bsm" onclick="nav('tco')">TCO Math →</button>
+        <button class="btn bto bsm" onclick="nav('coi')">COI Urgency →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dash-ai-summary" style="margin-top:16px;"></div>
+</div>
+
+<div class="sec" id="sec-upload">
+  <div id="bb-upload"></div>
+  <div class="pt">Upload Documents</div>
+  <div class="ps">Brochures power the sales pitch, quotes power the TCO.</div>
+  
+  <div class="sl">Institution Context</div>
+  <div class="is"><button class="ib" onclick="si('school',this)">K-12 School</button><button class="ib active" onclick="si('college',this)">PU College</button><button class="ib" onclick="si('engineering',this)">Engineering</button><button class="ib" onclick="si('coaching',this)">Coaching</button></div>
+
+  <div id="upload-zones-container">
+    <div class="al ali">Use this section in conjunction with the backend Claude/Gemini API to extract document data. Note: PDF extraction requires valid API keys in Settings.</div>
+  </div>
+</div>
+
+<div class="sec" id="sec-manual">
+  <div id="bb-manual"></div>
+  <div class="pt">Manual Input</div>
+  <div class="ps">Enter deal values directly — every tab updates live</div>
+  <div class="is"><button class="ib" onclick="si('school',this)">K-12 School</button><button class="ib active" onclick="si('college',this)">PU College</button><button class="ib" onclick="si('engineering',this)">Engineering</button><button class="ib" onclick="si('coaching',this)">Coaching</button></div>
+  
+  <div class="g2">
+    <div class="card">
+      <div class="ct" style="color:var(--green)">Senses / Microline</div>
+      <div class="sl">Deal Context</div>
+      <div class="fl"><label>Institution name</label><input id="m-inst" placeholder="e.g. St. Joseph's PU College" oninput="syncM()"></div>
+      <div class="fr"><div class="fl"><label>Number of panels</label><input id="m-panels" type="number" value="" oninput="syncM()"></div><div class="fl"><label>Panel size</label><select id="m-size" oninput="syncM()"><option>65"</option><option>75"</option><option selected>86"</option><option>98"</option></select></div></div>
+      
+      <div class="sl">Hardware Costs</div>
+      <div class="fl"><label>Panel unit cost (ex-GST ₹)</label><input id="m-sp" type="number" value="" oninput="syncM()"></div>
+      <div class="tg">
+        <button class="tb" onclick="setOPS('none',this)">No OPS</button>
+        <button class="tb" onclick="setOPS('i5',this)">OPS i5</button>
+        <button class="tb active" onclick="setOPS('i7',this)">OPS i7</button>
+      </div>
+      <div id="ops-field" class="fl"><label>OPS unit cost (ex-GST ₹)</label><input id="m-sops" type="number" value="" oninput="syncM()"><div class="hint" id="ops-hint">i7 13th Gen · 8GB · 256GB SSD + 1TB HDD · Win 11 Pro</div></div>
+      <div class="fl"><label>Camera unit cost (ex-GST ₹)</label><input id="m-scam" type="number" value="" oninput="syncM()"></div>
+      
+      <div class="sl">Services & Warranties</div>
+      <div class="fr"><div class="fl"><label>GST %</label><input id="m-sgst" type="number" value="18" oninput="syncM()"></div><div class="fl"><label>Warranty (years)</label><input id="m-swar" type="number" value="5" oninput="syncM()"></div></div>
+      <div class="fr"><div class="fl"><label>Lifespan (years)</label><input id="m-slife" type="number" value="7" oninput="syncM()"></div><div class="fl"><label>Annual cloud fee (₹)</label><input id="m-scld" type="number" value="0" oninput="syncM()"></div></div>
+      <div class="fr"><div class="fl"><label>Annual AMC (₹)</label><input id="m-samc" type="number" value="0" oninput="syncM()"></div><div class="fl"><label>Warranty excl. risk (₹)</label><input id="m-sexcl" type="number" value="0" oninput="syncM()"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="ct" style="color:var(--red)">Competitor</div>
+      <div class="sl">Deal Context</div>
+      <div class="fl"><label>Competitor name</label><input id="m-cn" value="TeachMint X2" oninput="syncM()"></div>
+      <div class="fl"><label>Competitor demoed?</label><select id="m-demod" oninput="syncM()"><option value="0">No — we are first</option><option value="1">Yes — I know what was shown</option><option value="2" selected>Yes — I don't know what was promised</option></select></div>
+      <div class="fl"><label>Met economic buyer?</label><select id="m-ceb" oninput="syncM()"><option value="0">No</option><option value="1" selected>Unknown</option><option value="2">Yes</option></select></div>
+      
+      <div class="sl">Hardware Costs</div>
+      <div class="fl"><label>Panel unit cost (ex-GST ₹)</label><input id="m-cp" type="number" value="" oninput="syncM()"></div>
+      <div class="fr"><div class="fl"><label>GST %</label><input id="m-cgst" type="number" value="18" oninput="syncM()"></div><div class="fl"><label>Transport/panel (₹)</label><input id="m-ctrans" type="number" value="" oninput="syncM()"></div></div>
+      
+      <div class="sl">Services & Warranties</div>
+      <div class="fr"><div class="fl"><label>Warranty (years)</label><input id="m-cwar" type="number" value="3" oninput="syncM()"></div><div class="fl"><label>Lifespan (years)</label><input id="m-clife" type="number" value="3" oninput="syncM()"></div></div>
+      <div class="fr"><div class="fl"><label>Sub/LMS/panel (₹)</label><input id="m-ccld" type="number" value="0" oninput="syncM()"></div><div class="fl"><label>Annual AMC/panel (₹)</label><input id="m-camc" type="number" value="" oninput="syncM()"></div></div>
+      <div class="fr"><div class="fl"><label>Warranty excl. risk (₹)</label><input id="m-cexcl" type="number" value="" oninput="syncM()"></div><div class="fl"><label>Replacement cost (₹)</label><input id="m-crep" type="number" value="" oninput="syncM()"></div></div>
+    </div>
+  </div>
+  <button class="btn btp" onclick="syncM();nav('tco')">Save & view TCO →</button>
+</div>
+
+<div class="sec" id="sec-stakeholders">
+  <div id="bb-stakeholders"></div>
+  <div class="pt">Stakeholder Map</div>
+  <div class="ps">The buying committee for a <span id="sh-inst-label" style="font-weight:700;"></span> deal.</div>
+  <div id="stakeholders-content"></div>
+</div>
+
+<div class="sec" id="sec-map">
+  <div id="bb-map"></div>
+  <div class="pt">Mutual Action Plan</div>
+  <div class="ps">Guide the buyer through a structured evaluation and procurement process.</div>
+  <div class="card" id="map-content">
+    </div>
+</div>
+
+<div class="sec" id="sec-simulator">
+  <div id="bb-simulator"></div>
+  <div class="pt">AI Objection Simulator</div>
+  <div class="ps">Practice your pitch. Claude plays the role of the buyer based on your deal inputs.</div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <div class="chat-window" id="sim-chat">
+      <div class="msg ai">Hi, I'm the buyer at this institution. I've seen the quote for Senses and the competitor. What makes Senses worth the investment?</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="sim-input" placeholder="Type your response or a new objection..." onkeypress="if(event.key==='Enter')sendSimMsg()">
+      <button onclick="sendSimMsg()">Send</button>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="sec-tco"><div id="bb-tco"></div><div id="tco-metrics" class="g4" style="margin-bottom:16px;"></div><div id="tco-bars" class="card"></div><div id="tco-tbody" class="tw"></div><div id="tco-yr"></div><div id="tco-verdict"></div></div>
+<div class="sec" id="sec-specs"><div id="bb-specs"></div><div class="al ali">Showing basic manual inputs.</div><div id="specs-content"></div></div>
+<div class="sec" id="sec-battle"><div id="bb-battle"></div><div class="al ali">Showing computed Battle Card.</div><div id="battle-content"></div></div>
+<div class="sec" id="sec-tei"><div id="bb-tei"></div><div id="tei-content"></div></div>
+<div class="sec" id="sec-pyramid"><div id="bb-pyramid"></div><div id="pyramid-content"></div></div>
+<div class="sec" id="sec-coi"><div id="bb-coi"></div><div id="coi-content"></div></div>
+<div class="sec" id="sec-scripts"><div id="bb-scripts"></div><div id="scripts-content"></div></div>
+<div class="sec" id="sec-email"><div id="bb-email"></div>
+  <div class="g2"><div class="card" id="email-controls">
+  <div class="fl"><label>Recipient name</label><input type="text" id="em-to" placeholder="E.g. Principal Menon" value="Principal"></div>
+  <button class="btn btp" onclick="genEmailTemplate()">Generate Email Template</button>
+  </div><div class="card"><textarea class="email-area" id="em-out"></textarea></div></div>
+</div>
+<div class="sec" id="sec-traps"><div id="bb-traps"></div><div class="al ali">Showing computed Traps.</div><div id="traps-content"></div></div>
+<div class="sec" id="sec-settings"><div id="bb-settings"></div><div class="card"><div class="ct">API Settings</div><div class="al ala">Placeholders for Claude/Gemini API integration.</div></div></div>
+
+</div></div><script>
+// ══ STATE & DATA ══
+var D={
+  institution:'',instType:'college',compName:'',panels:1,opsMode:'i7',
+  s:{panel:0,ops:35000,cam:0,gst:18,war:5,life:7,cloud:0,amc:0,excl:0,transport:0},
+  c:{panel:0,gst:18,war:3,life:3,cloud:0,amc:0,excl:0,transport:0,rep:0,repLife:3,demod:0,ceb:0}
+};
+var uploads={}; var qans={}; var sfilt='all';
+var instInfo={
+  school:{label:'K-12 School',pain:'NEP 2020 compliance, CBSE mandate',event:'Annual budget Feb–Apr',buyer:'Principal / Trust',champ:'IT coordinator'},
+  college:{label:'PU College',pain:'NAAC A+ accreditation, ICT documentation',event:'NAAC visit cycle, UGC grant',buyer:'Principal / IQAC',champ:'IQAC coordinator'},
+  engineering:{label:'Engineering Institute',pain:'NBA accreditation, OBE documentation',event:'NBA visit cycle',buyer:'Dean Academics',champ:'NBA cell coordinator'},
+  coaching:{label:'Coaching Centre',pain:'Student retention vs EdTech, recording',event:'Batch enrollment May–Jun',buyer:'Founder / Centre Head',champ:'Star teacher'}
+};
+
+var navHistory=['dash'];
+var sectionMeta={
+  dash:{label:'Deal Dashboard',group:'Phase 2: In the Room'},
+  upload:{label:'Upload Documents',group:'Phase 1: Deal Prep'},
+  manual:{label:'Manual Input',group:'Phase 1: Deal Prep'},
+  stakeholders:{label:'Stakeholder Map',group:'Phase 1: Deal Prep'},
+  tco:{label:'TCO Calculator',group:'Phase 2: In the Room'},
+  specs:{label:'Spec Comparison',group:'Phase 2: In the Room'},
+  traps:{label:'Trap Questions',group:'Phase 2: In the Room'},
+  battle:{label:'Battle Card',group:'Phase 3: Business Case'},
+  tei:{label:'TEI Framework',group:'Phase 3: Business Case'},
+  pyramid:{label:'Value Pyramid',group:'Phase 3: Business Case'},
+  coi:{label:'Cost of Inaction',group:'Phase 3: Business Case'},
+  scripts:{label:'Closing Scripts',group:'Phase 4: Follow-up'},
+  email:{label:'Email Generator',group:'Phase 4: Follow-up'},
+  map:{label:'Mutual Action Plan',group:'Phase 4: Follow-up'},
+  simulator:{label:'AI Simulator',group:'Phase 4: Follow-up'},
+  settings:{label:'Settings',group:''}
+};
+
+// ══ UTILS ══
+var fmt=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+var ho=()=>D.opsMode!=='none';
+var ol=()=>D.opsMode==='none'?'No OPS':D.opsMode==='i5'?'OPS i5':'OPS i7';
+
+var sTGST=()=> (D.s.panel+(ho()?D.s.ops:0)+D.s.cam)*D.panels*(1+D.s.gst/100);
+var sAnn=()=> (sTGST()+(D.s.cloud+D.s.amc)*D.panels*D.s.life+D.s.excl*D.panels+D.s.transport*D.panels)/D.s.life;
+var cTGST=()=> D.c.panel*D.panels*(1+D.c.gst/100);
+var cAnn=()=> (cTGST()+(D.c.cloud+D.c.amc)*D.panels*D.c.life+D.c.excl*D.panels+D.c.transport*D.panels)/D.c.life;
+
+function calcRisk(){
+  var score=0;
+  var gap=sTGST()-cTGST();
+  if(gap>500000)score+=25;else if(gap>250000)score+=15;else if(gap>100000)score+=8;
+  score+=D.c.demod*10;
+  score+=D.c.ceb*10;
+  if(cAnn()<sAnn())score+=15;
+  if(D.c.excl>0)score-=5; // Senses advantage
+  return Math.max(0, Math.min(score, 100));
+}
+
+// ══ NAV ══
+function nav(id){
+  navHistory.push(id);if(navHistory.length>20)navHistory.shift();
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  var sec=document.getElementById('sec-'+id);if(sec)sec.classList.add('active');
+  document.querySelectorAll('.ni').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active');});
+  renderAll();
+}
+function si(t,el){
+  D.instType=t;
+  document.querySelectorAll('.ib').forEach(b=>{
+      var oc=b.getAttribute('onclick');
+      if(oc) b.classList.toggle('active', oc.includes("'"+t+"'"));
+  });
+  document.getElementById('hdr-inst').textContent=instInfo[t].label;
+  renderAll();
+}
+function setOPS(mode,el){
+  D.opsMode=mode;
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('ops-field').style.display=mode==='none'?'none':'block';
+  if(mode==='i5') D.s.ops=25000; else if(mode==='i7') D.s.ops=35000;
+  syncManualFromD();
+}
+
+function syncM(){
+  var gn=id=>{var e=document.getElementById(id);return e?+e.value||0:0;};
+  D.institution=document.getElementById('m-inst').value||D.institution;
+  D.compName=document.getElementById('m-cn').value||D.compName;
+  D.panels=gn('m-panels')||1; D.s.panel=gn('m-sp'); D.s.ops=gn('m-sops'); D.s.cam=gn('m-scam');
+  D.c.panel=gn('m-cp'); D.c.demod=gn('m-demod'); D.c.ceb=gn('m-ceb');
+  D.c.excl=gn('m-cexcl'); D.s.excl=gn('m-sexcl'); D.c.life=gn('m-clife'); D.s.life=gn('m-slife');
+  D.c.war=gn('m-cwar'); D.s.war=gn('m-swar'); D.c.cloud=gn('m-ccld'); D.s.cloud=gn('m-scld');
+  D.c.amc=gn('m-camc'); D.s.amc=gn('m-samc');
+  renderAll();
+}
+
+function syncManualFromD(){
+  var sf=(id,v)=>{var e=document.getElementById(id);if(e)e.value=(v==null?'':v);};
+  sf('m-inst',D.institution); sf('m-cn',D.compName); sf('m-panels',D.panels);
+  sf('m-sp',D.s.panel); sf('m-sops',D.s.ops); sf('m-scam',D.s.cam); sf('m-cp',D.c.panel);
+  sf('m-demod',D.c.demod); sf('m-ceb',D.c.ceb); sf('m-cexcl',D.c.excl); sf('m-sexcl',D.s.excl);
+  sf('m-clife',D.c.life); sf('m-slife',D.s.life); sf('m-cwar',D.c.war); sf('m-swar',D.s.war);
+  sf('m-ccld',D.c.cloud); sf('m-scld',D.s.cloud); sf('m-camc',D.c.amc); sf('m-samc',D.s.amc);
+}
+
+// ══ RENDER ══
+function renderAll(){
+  injectBackBars();
+  renderDash();
+  renderStakeholders();
+  renderMAP();
+  // Call dummy renderers for remaining basic components
+  renderTCO(); 
+  renderScripts();
+}
+
+function injectBackBars(){
+  Object.keys(sectionMeta).forEach(id=>{
+    var bb=document.getElementById('bb-'+id);
+    if(!bb)return;
+    var m=sectionMeta[id];
+    if(id==='dash'){bb.innerHTML='';return;}
+    var prev=navHistory.length>1?navHistory[navHistory.length-2]:'dash';
+    var prevLabel=sectionMeta[prev]?sectionMeta[prev].label:'Dashboard';
+    bb.innerHTML='<div class="back-bar">'
+      +'<button class="back-btn" onclick="nav(\''+prev+'\')">&#8592; Back to '+prevLabel+'</button>'
+      +(m.group?'<span class="breadcrumb">'+m.group+' &rsaquo; <span>'+m.label+'</span></span>':'')
+      +'</div>';
+  });
+}
+
+// ══ DASHBOARD (Predictive) ══
+function renderDash(){
+  var risk = calcRisk();
+  var winProb = 100 - risk;
+  var wpColor = winProb>=65?'var(--green)':winProb>=40?'var(--amber)':'var(--red)';
+  var wpLabel = winProb>=65?'High Probability':winProb>=40?'Evaluating':'At Risk';
+
+  // Render Win Prob Ring
+  var arc=document.getElementById('dash-win-arc');
+  var num=document.getElementById('dash-win-num');
+  var lbl=document.getElementById('dash-win-label');
+  if(arc){
+    var offset=301.59 - (winProb/100)*301.59;
+    arc.setAttribute('stroke-dashoffset',offset);
+    arc.setAttribute('stroke',wpColor);
+  }
+  if(num){num.textContent=winProb+'%'; num.setAttribute('fill',wpColor);}
+  if(lbl){lbl.textContent=wpLabel;}
+
+  // Render Next Best Action (NBA)
+  var nbaText = document.getElementById('dash-nba-text');
+  var nbaBtn = document.getElementById('dash-nba-btn');
+  if(nbaText && nbaBtn){
+    if(D.c.panel===0 && D.s.panel===0){
+      nbaText.textContent = "Upload brochures and quotes, or enter manual data to generate predictive actions.";
+      nbaBtn.innerHTML = `<button class="btn btp bsm" onclick="nav('upload')">Upload Documents</button>`;
+    } else if (D.c.excl > 0) {
+      nbaText.textContent = `The competitor's physical warranty exclusion creates a ${fmt(D.c.excl*D.panels)} risk. Draft an email pointing this out to the buyer.`;
+      nbaBtn.innerHTML = `<button class="btn btp bsm" onclick="nav('email')">Draft Warranty Email</button>`;
+    } else if (D.c.ceb === 0 || D.c.ceb === 1) {
+      nbaText.textContent = `You haven't confirmed meeting the economic buyer (${instInfo[D.instType].buyer}). Use the TEI framework to request an executive meeting.`;
+      nbaBtn.innerHTML = `<button class="btn btp bsm" onclick="nav('tei')">View TEI Framework</button>`;
+    } else if (sTGST() > cTGST()) {
+      nbaText.textContent = `Senses has a higher upfront cost by ${fmt(sTGST()-cTGST())}. Use the TCO calculator to prove long-term savings.`;
+      nbaBtn.innerHTML = `<button class="btn btp bsm" onclick="nav('tco')">Open TCO Calculator</button>`;
+    } else {
+      nbaText.textContent = `You are well-positioned. Secure agreement on the Mutual Action Plan to close.`;
+      nbaBtn.innerHTML = `<button class="btn btp bsm" onclick="nav('map')">View Close Plan</button>`;
+    }
+  }
+
+  // Update KPI Row
+  var krow=document.getElementById('dash-kpi-row');
+  var sT=sTGST(), save=cAnn()-sAnn();
+  if(krow) krow.innerHTML=
+    `<div class="card" style="padding:16px;text-align:center;"><div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Deal Value</div><div style="font-size:22px;font-weight:800;color:var(--indigo);">${sT>0?fmt(sT):'—'}</div></div>` +
+    `<div class="card" style="padding:16px;text-align:center;"><div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">TCO Advantage</div><div style="font-size:22px;font-weight:800;color:${save>0?'var(--green)':'var(--red)'};">${save!=0?fmt(save)+'/yr':'—'}</div></div>` +
+    `<div class="card" style="padding:16px;text-align:center;"><div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Panels</div><div style="font-size:22px;font-weight:800;color:var(--text);">${D.panels}</div></div>` +
+    `<div class="card" style="padding:16px;text-align:center;"><div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;margin-bottom:4px;">Competitor</div><div style="font-size:18px;font-weight:700;color:var(--text);margin-top:4px;">${D.compName||'Unknown'}</div></div>`;
+}
+
+// ══ NEW: STAKEHOLDER MAP ══
+function renderStakeholders(){
+  var sc = document.getElementById('stakeholders-content');
+  var lbl = document.getElementById('sh-inst-label');
+  if(!sc) return;
+  if(lbl) lbl.textContent = instInfo[D.instType].label;
+
+  var personas = {
+    college: [
+      {role:'Principal / Trust Member', kpi:'NAAC Grade, Total Budget, Brand Prestige', obj:'"We don\'t have budget for premium panels right now."', pitch:'Senses isn\'t a premium—it\'s a 7-year fixed-cost asset that automates your NAAC ICT documentation and guarantees zero hidden subscription fees.'},
+      {role:'IQAC Coordinator', kpi:'Accreditation Evidence, Pedagogy Shift', obj:'"Teachers will just use it as a projector."', pitch:'The built-in Windows ecosystem means teachers use the MS Office tools they already know, drastically increasing true interactive adoption.'},
+      {role:'IT Head', kpi:'Uptime, Maintenance Tickets, Security', obj:'"Android is easier to manage than Windows PCs."', pitch:'Senses eliminates projector lamp replacements and AV servicing entirely, while the Windows OPS securely joins your existing network domain.'}
+    ]
+  };
+  var data = personas[D.instType] || personas.college; 
+
+  var html = '<div class="g3">';
+  data.forEach(p => {
+    html += `<div class="card">
+      <div style="font-size:14px;font-weight:800;color:var(--indigo);margin-bottom:4px;">${p.role}</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">KPIs: ${p.kpi}</div>
+      <div style="background:var(--rbg);border-left:3px solid var(--red);padding:8px 12px;font-size:12px;color:var(--red);font-weight:500;margin-bottom:12px;">Common Objection:<br><span style="color:var(--text);font-style:italic;">${p.obj}</span></div>
+      <div style="font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Value Prop (Say This)</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6;">${p.pitch}</div>
+    </div>`;
+  });
+  html += '</div>';
+  sc.innerHTML = html;
+}
+
+// ══ NEW: MUTUAL ACTION PLAN (MAP) ══
+function renderMAP(){
+  var mapC = document.getElementById('map-content');
+  if(!mapC) return;
+  
+  var steps = [
+    {title: 'Technical Demo & Proof of Concept', owner: 'Microline Rep', time: 'Day 1'},
+    {title: 'IT Infrastructure & Network Review', owner: 'Institution IT Head', time: 'Day 3'},
+    {title: 'TCO & Business Case Presentation', owner: 'Microline Rep', time: 'Day 5'},
+    {title: 'Executive / Trust Committee Approval', owner: 'Principal', time: 'Day 10'},
+    {title: 'Purchase Order Issuance', owner: 'Procurement', time: 'Day 14'}
+  ];
+
+  var html = `<div class="ct">Deal Closing Timeline</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:16px;">Agree on these steps with your champion to maintain deal momentum.</div>`;
+  
+  steps.forEach((s,i) => {
+    html += `<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);">
+      <input type="checkbox" style="width:18px;height:18px;cursor:pointer;">
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;color:var(--text);">${i+1}. ${s.title}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">Owner: <strong>${s.owner}</strong></div>
+      </div>
+      <div class="tag tn_">${s.time}</div>
+    </div>`;
+  });
+  mapC.innerHTML = html;
+}
+
+// ══ NEW: AI SIMULATOR ══
+async function sendSimMsg(){
+  var inputEl = document.getElementById('sim-input');
+  var chatWindow = document.getElementById('sim-chat');
+  var msg = inputEl.value.trim();
+  if(!msg) return;
+
+  chatWindow.innerHTML += `<div class="msg user">${msg}</div>`;
+  inputEl.value = '';
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  setTimeout(() => {
+    var aiReply = `That's a fair point about the price. However, if you look at the TCO over ${D.s.life} years, Senses actually saves you ${fmt(Math.abs(cAnn()-sAnn()))} annually because we don't have subscription fees or warranty exclusions. Does the trust committee look at 1-year or 5-year costs?`;
+    chatWindow.innerHTML += `<div class="msg ai">${aiReply}</div>`;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }, 1000);
+}
+
+// Dummy renders for TCO/Scripts/Emails to ensure visual completion in UI
+function renderTCO(){
+  var tcoTb = document.getElementById('tco-tbody');
+  if(tcoTb) tcoTb.innerHTML = `<tr><td>Panel hardware</td><td>${fmt(D.s.panel*D.panels)}</td><td>${fmt(D.c.panel*D.panels)}</td><td></td></tr>`;
+}
+function renderScripts(){
+  var scr = document.getElementById('scripts-content');
+  if(scr) scr.innerHTML = `<div class="card"><div class="ct">Main closing script</div><div class="sb">"I understand the ${D.compName} quote looks lower upfront. Let me show you what that difference actually buys — and costs."</div></div>`;
+}
+function genEmailTemplate(){
+  var eo = document.getElementById('em-out');
+  var to = document.getElementById('em-to').value || 'Principal';
+  if(eo) eo.value = `Dear ${to},\n\nThank you for your time today. Quick comparison for your reference:\nSenses saves ${fmt(Math.abs(cAnn()-sAnn()))} annually over the ${D.s.life}-year lifespan.\n\nWarm regards,\nSenses Team`;
+}
+
+// Init
+syncManualFromD();
+renderAll();
+</script>
+
+</body>
+</html>
